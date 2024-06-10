@@ -28,7 +28,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ github.sha }}-${{ github.run_id }}
-        path: public.zip
+        path: **/.output/public/public.zip
         retention-days: 1
     - run: sleep 30
          
