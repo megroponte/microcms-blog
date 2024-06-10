@@ -23,8 +23,8 @@ jobs:
     - run: |
         cd .output/public
         ls -lR
-        pwd
         zip -r public.zip .
+    - run: pwd
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ github.sha }}-${{ github.run_id }}
