@@ -20,7 +20,7 @@ jobs:
         MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
         MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
     - run: |
-        ls -lR
+        ls -l
         zip -r dist.zip .
     - uses: actions/upload-artifact@v4
       with:
