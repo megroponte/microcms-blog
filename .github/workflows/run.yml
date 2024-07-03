@@ -4,6 +4,12 @@ on:
     branches: [main]
   repository_dispatch:
     types: [blog-update]
+  workflow_dispatch:
+    inputs:
+      deploy_production:
+        type: boolean
+        required: false
+        description: 'deploy to production'
 
 jobs:
   job-name:
@@ -29,7 +35,6 @@ jobs:
         retention-days: 1
 
     - uses: actions/download-artifact@v4
-
     - run: |
         ls -la
          
