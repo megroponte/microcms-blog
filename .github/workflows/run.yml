@@ -20,14 +20,12 @@ jobs:
         MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
         MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
     - run: |
-        cd .output/public
         ls -lR
-        zip -r public.zip .
-        mv public.zip ../../
+        zip -r dist.zip .
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ github.sha }}-${{ github.run_id }}
-        path: public.zip
+        path: dist.zip
         retention-days: 1
 
     - uses: actions/download-artifact@v4
