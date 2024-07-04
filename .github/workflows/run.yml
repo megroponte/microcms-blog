@@ -16,7 +16,7 @@ on:
         required: true
         description: '処理項目'
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '0,15,30,45 * * * *'
 
 jobs:
   test:
