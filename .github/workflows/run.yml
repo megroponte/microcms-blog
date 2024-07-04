@@ -44,14 +44,14 @@ jobs:
     #     ls -la
   
   production_build:
-    if: github.event.inputs.build_for_porduction  == true
+    if: github.event.inputs.build_for_porduction  == 'true'
     runs-on: ubuntu-latest
     steps:
     - run: |
        echo ${{ github.event.inputs.build_for_porduction }}
 
   production_deploy:
-    if: github.event.inputs.deploy_production  == true
+    if: github.event.inputs.deploy_production  == 'true'
     runs-on: ubuntu-latest
     steps:
       - run: |
