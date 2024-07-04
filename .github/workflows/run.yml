@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: |
+       echo ${{ github.event.inputs.build_for_porduction }}
        echo ${{ github.event.inputs.deploy_production }}
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
