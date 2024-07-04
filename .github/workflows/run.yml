@@ -13,7 +13,7 @@ on:
       deploy_production:
         type: boolean
         required: false
-        description: 'deploy to production'
+        description: '本番サーバにビルドしたファイルをアップロードする'
 
 jobs:
   job-name:
