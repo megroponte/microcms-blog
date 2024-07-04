@@ -6,7 +6,7 @@ on:
     types: [blog-update]
   schedule:
     # - cron: '0,15,30,45 * * * *'
-    - cron:  "${{ vars.CRONTAB }}"
+    - cron:  ${{ vars.CRONTAB }}
   workflow_dispatch:
     inputs:
       mode:
