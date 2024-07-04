@@ -15,19 +15,12 @@ on:
         default: 'テスト'
         required: true
         description: '処理項目'
-      # build_for_porduction:
-      #   type: boolean
-      #   required: false
-      #   description: '本番用ファイルをビルドする'
-      # deploy_production:
-      #   type: boolean
-      #   required: false
-      #   description: '本番サーバにビルドしたファイルをアップロードする'
+  schedule:
+    - cron: '*/30 * * * *'
 
 jobs:
   test:
-    # if: github.event.inputs.build_for_porduction  != 'true' && github.event.inputs.deploy_production  != 'true'
-    if: github.event.inputs.mode != '本番用ファイルをビルド' && github.event.inputs.mode != '本番サーバにビルドしたファイルをアップロード'
+    if: github.event.inputs.mode != '本番用ファイルをビルド' && github.event.inputs.mode != '本番サーバにビルドしたファイルをアップロード' &&  github.event.schedule != '*/30 * * * *'
     runs-on: ubuntu-latest
     steps:
     - run: echo 'test'
@@ -55,7 +48,6 @@ jobs:
     #     ls -la
   
   production_build:
-    # if: github.event.inputs.build_for_porduction  == 'true'
     if: github.event.inputs.mode == '本番用ファイルをビルド'
     runs-on: ubuntu-latest
     steps:
@@ -65,8 +57,7 @@ jobs:
        echo ${{ github.event.inputs.mode }}
 
   production_deploy:
-    # if: github.event.inputs.deploy_production  == 'true'
-    if: github.event.inputs.mode == '本番サーバにビルドしたファイルをアップロード' 
+    if: github.event.inputs.mode == '本番サーバにビルドしたファイルをアップロード'  &&  github.event.schedule != '*/30 * * * *'
     runs-on: ubuntu-latest
     steps:
       # - run: |
