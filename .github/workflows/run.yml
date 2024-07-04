@@ -48,7 +48,7 @@ jobs:
     #     ls -la
   
   production_build:
-    if: github.event.inputs.mode == '本番用ファイルをビルド'
+    if: github.event.inputs.mode == '本番用ファイルをビルド' && github.event.schedule == '*/30 * * * *'
     runs-on: ubuntu-latest
     steps:
     # - run: |
