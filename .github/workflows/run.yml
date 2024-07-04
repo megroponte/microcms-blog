@@ -6,6 +6,10 @@ on:
     types: [blog-update]
   workflow_dispatch:
     inputs:
+      build_for_porduction:
+        type: boolean
+        required: false
+        description: '本番用ファイルをビルドする'
       deploy_production:
         type: boolean
         required: false
@@ -39,6 +43,3 @@ jobs:
     - uses: actions/download-artifact@v4
     - run: |
         ls -la
-         
-
-
