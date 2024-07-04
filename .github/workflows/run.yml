@@ -17,6 +17,7 @@ on:
 
 jobs:
   test:
+    if: github.event.inputs.build_for_porduction  != 'true' && github.event.inputs.deploy_production  != 'true'
     runs-on: ubuntu-latest
     steps:
     - run: echo 'test'
