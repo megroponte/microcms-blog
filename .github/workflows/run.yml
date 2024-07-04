@@ -16,12 +16,10 @@ on:
         description: '本番サーバにビルドしたファイルをアップロードする'
 
 jobs:
-  job-name:
+  test:
     runs-on: ubuntu-latest
     steps:
-    - run: |
-       echo ${{ github.event.inputs.build_for_porduction }}
-       echo ${{ github.event.inputs.deploy_production }}
+    - run: echo 'test'
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
@@ -35,12 +33,26 @@ jobs:
     - run: |
         ls -l
         zip -r dist.zip dist
-    - uses: actions/upload-artifact@v4
-      with:
-        name: ${{ github.sha }}-${{ github.run_id }}
-        path: dist.zip
-        retention-days: 1
+    # - uses: actions/upload-artifact@v4
+    #   with:
+    #     name: ${{ github.sha }}-${{ github.run_id }}
+    #     path: dist.zip
+    #     retention-days: 1
 
-    - uses: actions/download-artifact@v4
+    # - uses: actions/download-artifact@v4
+    # - run: |
+    #     ls -la
+  
+  production_build:
+    if: github.event.inputs.build_for_porduction  == true
+    runs-on: ubuntu-latest
+    steps:
     - run: |
-        ls -la
+       echo ${{ github.event.inputs.build_for_porduction }}
+
+  production_deploy:
+    if: github.event.inputs.deploy_production  == true
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+         echo ${{ github.event.inputs.deploy_production }}
