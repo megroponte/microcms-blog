@@ -5,7 +5,8 @@ on:
   repository_dispatch:
     types: [blog-update]
   schedule:
-    - cron: '0,15,30,45 * * * *'
+    # - cron: '0,15,30,45 * * * *'
+    - cron:  ${{ vars.CRONTAB }}
   workflow_dispatch:
     inputs:
       mode:
