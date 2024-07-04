@@ -4,6 +4,8 @@ on:
     branches: [main]
   repository_dispatch:
     types: [blog-update]
+  schedule:
+    - cron: '0,15,30,45 * * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -15,8 +17,7 @@ on:
         default: 'テスト'
         required: true
         description: '処理項目'
-  schedule:
-    - cron: '0,15,30,45 * * * *'
+
 
 jobs:
   test:
@@ -52,11 +53,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: |
-       echo ${{ github.event.inputs.mode }}
+       echo "production_build"
 
   production_deploy:
     if: github.event.inputs.mode == '本番サーバにビルドしたファイルをアップロード'  &&  github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
       - run: |
-         echo ${{ github.event.inputs.mode }}
+          echo "production_deploy"
