@@ -20,7 +20,7 @@ on:
 
 jobs:
   test:
-    if: github.event.inputs.mode != '本番用ファイルをビルド' && github.event.inputs.mode != '本番サーバにビルドしたファイルをアップロード' &&  github.event.schedule != '*/30 * * * *'
+    if: github.event.inputs.mode != '本番用ファイルをビルド' && github.event.inputs.mode != '本番サーバにビルドしたファイルをアップロード' && github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
     - run: echo 'test'
@@ -48,19 +48,15 @@ jobs:
     #     ls -la
   
   production_build:
-    if: github.event.inputs.mode == '本番用ファイルをビルド' || github.event.schedule == '*/30 * * * *'
+    if: github.event.inputs.mode == '本番用ファイルをビルド' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
-    # - run: |
-    #    echo ${{ github.event.inputs.build_for_porduction }}
     - run: |
        echo ${{ github.event.inputs.mode }}
 
   production_deploy:
-    if: github.event.inputs.mode == '本番サーバにビルドしたファイルをアップロード'  &&  github.event.schedule != '*/30 * * * *'
+    if: github.event.inputs.mode == '本番サーバにビルドしたファイルをアップロード'  &&  github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
-      # - run: |
-      #    echo ${{ github.event.inputs.deploy_production }}
       - run: |
          echo ${{ github.event.inputs.mode }}
