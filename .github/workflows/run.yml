@@ -6,18 +6,28 @@ on:
     types: [blog-update]
   workflow_dispatch:
     inputs:
-      build_for_porduction:
-        type: boolean
-        required: false
-        description: '本番用ファイルをビルドする'
-      deploy_production:
-        type: boolean
-        required: false
-        description: '本番サーバにビルドしたファイルをアップロードする'
+      mode:
+        type: choice
+        options:
+          - テスト
+          - 本番用ファイルをビルド
+          - 本番サーバにビルドしたファイルをアップロード
+        default: 'テスト'
+        required: true
+        description: '処理項目'
+      # build_for_porduction:
+      #   type: boolean
+      #   required: false
+      #   description: '本番用ファイルをビルドする'
+      # deploy_production:
+      #   type: boolean
+      #   required: false
+      #   description: '本番サーバにビルドしたファイルをアップロードする'
 
 jobs:
   test:
-    if: github.event.inputs.build_for_porduction  != 'true' && github.event.inputs.deploy_production  != 'true'
+    # if: github.event.inputs.build_for_porduction  != 'true' && github.event.inputs.deploy_production  != 'true'
+    if: github.event.inputs.mode == 'テスト'
     runs-on: ubuntu-latest
     steps:
     - run: echo 'test'
@@ -45,15 +55,21 @@ jobs:
     #     ls -la
   
   production_build:
-    if: github.event.inputs.build_for_porduction  == 'true'
+    # if: github.event.inputs.build_for_porduction  == 'true'
+    if: github.event.inputs.mode == '本番用ファイルをビルド'
     runs-on: ubuntu-latest
     steps:
+    # - run: |
+    #    echo ${{ github.event.inputs.build_for_porduction }}
     - run: |
-       echo ${{ github.event.inputs.build_for_porduction }}
+       echo ${{ github.event.inputs.mode }}
 
   production_deploy:
-    if: github.event.inputs.deploy_production  == 'true'
+    # if: github.event.inputs.deploy_production  == 'true'
+    if: github.event.inputs.mode == '本番サーバにビルドしたファイルをアップロード' 
     runs-on: ubuntu-latest
     steps:
+      # - run: |
+      #    echo ${{ github.event.inputs.deploy_production }}
       - run: |
-         echo ${{ github.event.inputs.deploy_production }}
+         echo ${{ github.event.inputs.mode }}
