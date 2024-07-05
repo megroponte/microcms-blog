@@ -63,16 +63,16 @@ jobs:
     - run: |
         npm ci
         npx nuxi generate
-    - run: |
-        ls -l
-        zip -r dist.zip dist
+    # - run: |
+    #     ls -l
+    #     zip -r dist.zip dist
     - name: Get Date
       id: get-date
       run: |
         echo "date=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
     - uses: actions/cache/save@v4
       with:
-          path: "dist.zip"
+          path: "dist"
           key: prod_main-${{ steps.get-date.outputs.date }}
 
   production_deploy:
