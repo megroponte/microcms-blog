@@ -1,7 +1,7 @@
 name: microcms-build
 on: 
-  push:
-    branches: [main]
+  # push:
+  #   branches: [main]
   repository_dispatch:
     types: [blog-update]
   # schedule:
@@ -17,6 +17,10 @@ on:
         default: 'テスト'
         required: true
         description: '処理項目'
+      cache-date:
+        type: string
+        required: false
+        description: 'キャッシュを作成した日時分'
 env:
   MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
   MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
@@ -63,16 +67,16 @@ jobs:
     - run: |
         npm ci
         npx nuxi generate
-    # - run: |
-    #     ls -l
-    #     zip -r dist.zip dist
+    - run: |
+        ls -l
+        zip -r dist.zip dist
     - name: Get Date
       id: get-date
       run: |
         echo "date=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
     - uses: actions/cache/save@v4
       with:
-          path: "dist"
+          path: "dist.zip"
           key: prod_main-${{ steps.get-date.outputs.date }}
 
   production_deploy:
@@ -81,3 +85,13 @@ jobs:
     steps:
       - run: |
           echo "production_deploy"
+      - uses: actions/cache/restore@v4
+        id: cache-restore-prod
+        with:
+            path: "dist.zip"
+            key: prod_main-${{ github.event.inputs.cache-date }}
+      - name: キャッシュのリストア
+        if: steps.cache-restore-prod.outputs.cache-hit == 'true'
+        run: |
+          ls -l
+      
