@@ -4,8 +4,8 @@ on:
     branches: [main]
   repository_dispatch:
     types: [blog-update]
-  schedule:
-    - cron: '0,15,30,45 * * * *'
+  # schedule:
+  #   - cron: '0,15,30,45 * * * *'
   workflow_dispatch:
     inputs:
       mode:
