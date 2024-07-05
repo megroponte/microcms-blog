@@ -68,8 +68,8 @@ jobs:
         npm ci
         npx nuxi generate
     - run: |
-        ls -l
         zip -r dist.zip dist
+        ls -l dist.zip
     - name: Get Date
       id: get-date
       run: |
