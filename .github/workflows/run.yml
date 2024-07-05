@@ -56,6 +56,24 @@ jobs:
     steps:
     - run: |
        echo "production_build"
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - run: |
+        npm ci
+        npx nuxi generate
+    - run: |
+        ls -l
+        zip -r dist.zip dist
+    - name: Get Date
+      id: get-date
+      run: |
+        echo "date-$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+    - uses: actions/cache@v4
+      with:
+          path: "dist.zip"
+          key: prod_main-${{ steps.get-date.outputs.date }}
 
   production_deploy:
     if: github.event.inputs.mode == '本番サーバにビルドしたファイルをアップロード'  &&  github.event_name != 'schedule'
