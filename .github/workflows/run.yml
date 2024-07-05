@@ -17,7 +17,9 @@ on:
         default: 'テスト'
         required: true
         description: '処理項目'
-
+env:
+  MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
+  MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
 
 jobs:
   test:
@@ -32,9 +34,9 @@ jobs:
     - run: |
         npm ci
         npx nuxi generate
-      env:
-        MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
-        MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+      # env:
+      #   MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
+      #   MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
     - run: |
         ls -l
         zip -r dist.zip dist
