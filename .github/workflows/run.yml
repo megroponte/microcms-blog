@@ -38,12 +38,8 @@ jobs:
     - run: |
         npm ci
         npx nuxi generate
-      # env:
-      #   MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
-      #   MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
-    - run: |
-        ls -l
-        zip -r dist.zip dist
+    # - run: |
+    #     zip -r dist.zip dist
     # - uses: actions/upload-artifact@v4
     #   with:
     #     name: ${{ github.sha }}-${{ github.run_id }}
@@ -76,8 +72,13 @@ jobs:
         echo "date=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
     - uses: actions/cache/save@v4
       with:
-          path: "dist.zip"
-          key: prod_main-${{ steps.get-date.outputs.date }}
+        path: "dist.zip"
+        key: prod_main-${{ steps.get-date.outputs.date }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: prod_main-${{ steps.get-date.outputs.date }}
+        path: dist.zip
+        retention-days: 1
 
   production_deploy:
     if: github.event.inputs.mode == '本番サーバにビルドしたファイルをアップロード'  &&  github.event_name != 'schedule'
@@ -92,6 +93,12 @@ jobs:
             key: prod_main-${{ github.event.inputs.cache-date }}
       - name: キャッシュのリストア
         if: steps.cache-restore-prod.outputs.cache-hit == 'true'
-        run: |
-          ls -l
+        uses: actions/upload-artifact@v4
+        with:
+          name: prod_main-${{ github.event.inputs.cache-date }}
+          path: dist.zip
+          retention-days: 1
+      - run: |
+         ls -l
+
       
